@@ -4,8 +4,7 @@
 import React from 'react'
 export default class Header extends React.Component{
     handleKeyDown=(event)=>{
-        event.preventDefault()
-        if(event.keyCode=== 13){
+        if(event.keyCode=== 13 && event.target.value!=null && event.target.value.length>0){
             let title = event.target.value;
             this.props.addTodo({title})
             event.target.value = '';
@@ -13,11 +12,9 @@ export default class Header extends React.Component{
     }
     render(){
         return(
-            <form action="">
                 <div className="form-group">
                     <input type="text" autoFocus={true} onKeyDown={this.handleKeyDown} className="form-control" placeholder="请输入"/>
                 </div>
-            </form>
         )
     }
 }

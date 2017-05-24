@@ -18,7 +18,10 @@ export default class Footer extends React.Component{
                     <button className={`btn ${this.props.filterType === FilterTypes.COMPLETED?'btn-success':'btn-default'} btn-sm`} onClick={()=>this.props.changeFilterType(FilterTypes.COMPLETED)}>已完成</button>
                 </div>
                 <div className="col-xs-3 text-center">
-                    <button className="btn btn-sm btn-danger" onClick={this.props.clearCompleted}>删除已完成</button>
+                    {
+                        this.props.completedTodoCount>0?<button className="btn btn-sm btn-danger" onClick={this.props.clearCompleted}>删除已完成</button>:null
+                    }
+
                 </div>
             </div>
         )

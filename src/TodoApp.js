@@ -16,7 +16,10 @@ export default class extends React.Component{
         ],
         filterType:filterTypes.ALL}
     }
-    toggle=(id)=>{
+    changeFilterType=(filterType)=>{
+        this.setState({filterType})
+    }
+    /*toggle=(id)=>{
         let todos = this.state.todos;
         todos = todos.map(todo=>{
             if(todo.id === id){
@@ -54,9 +57,10 @@ export default class extends React.Component{
         let todos = this.state.todos
         todos = todos.filter(todo=>!todo.completed);
         this.setState({todos});
-    }
+    }*/
     render(){
-        let todos = this.state.todos;
+        let todos = this.props.model.todos;
+        //let todos = this.state.todos;
         let showTodos = todos.filter((todo)=>{
             switch (this.state.filterType){
                 case filterTypes.ACTIVE://要显示未完成的
@@ -68,11 +72,12 @@ export default class extends React.Component{
             }
         })
         let activeTodoCount = todos.reduce((count,todo)=>count+(todo.completed?0:1),0);
+        let completedTodoCount = todos.length - activeTodoCount
         let main = (
             <ul className="list-group">
                 {
                     todos.length>0?<li className="list-group-item">
-                        <input type="checkbox" checked={activeTodoCount===0} onChange={this.toggleAll}/>{activeTodoCount===0?'全部取消':'全部选中'}
+                        <input type="checkbox" checked={activeTodoCount===0} onChange={this.props.model.toggleAll}/>{activeTodoCount===0?'全部取消':'全部选中'}
                     </li>:null
                 }
                 {
@@ -81,7 +86,7 @@ export default class extends React.Component{
                         toggle={this.toggle}
                         key={index}
                         todo={todo}
-                        remove={this.remove}
+                        remove={/*this.remove*/this.props.model.remove}
                         />
                     ))
                 }
@@ -93,7 +98,7 @@ export default class extends React.Component{
                     <div className="col-md-6 col-md-offset-3">
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <Header addTodo={this.addTodo}/>
+                                <Header addTodo={this.props.model.addTodo}/>
                             </div>
                             <div className="panel-body">
                                 {main}
@@ -102,7 +107,8 @@ export default class extends React.Component{
                                 <Footer activeTodoCount={activeTodoCount}
                                 changeFilterType={this.changeFilterType}
                                 filterType={this.state.filterType}
-                                clearCompleted={this.clearCompleted}
+                                clearCompleted={this.props.model.clearCompleted}
+                                 completedTodoCount={completedTodoCount}
                                 />
                             </div>
                         </div>
